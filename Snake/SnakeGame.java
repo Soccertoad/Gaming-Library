@@ -7,18 +7,6 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class SnakeGame extends JPanel {
-    // Tiles to create grid
-    private class Tile {
-        static int tileSize = 25;
-        int x, y; 
-        Tile(int x, int y) {
-            this.x = x * tileSize;
-            this.y = y * tileSize;
-        }
-        public void setX(int x) {this.x = x*tileSize;};
-        public void setY(int y) {this.y = y*tileSize;};
-    }
-
     // Variables
     int boardWidth;
     int boardHeight;
@@ -61,11 +49,11 @@ public class SnakeGame extends JPanel {
 
         // Food 
         g.setColor(Color.getHSBColor(0f, 0.8f, 0.7f));
-        g.fillOval(food.x, food.y, tileSize, tileSize);
+        g.fillOval(food.getX(), food.getY(), tileSize, tileSize);
 
         // Snake
         g.setColor(Color.getHSBColor(0.3f, 0.5f, 0.3f));
-        g.fillOval(snakeHead.x, snakeHead.y, tileSize, tileSize);
+        g.fillOval(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize);
     }
 
     public void placeFood() {
