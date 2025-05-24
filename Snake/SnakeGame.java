@@ -6,8 +6,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class SnakeGame extends JPanel {
-    // Variables
+public class SnakeGame extends JPanel implements ActionListener{
+    // Board
     int boardWidth;
     int boardHeight;
     int tileSize = Tile.tileSize;
@@ -16,8 +16,12 @@ public class SnakeGame extends JPanel {
     Tile snakeHead;
     Tile food;
 
+    // Game Logic
+    Timer gameLoop;
+
     // Constructor
     public SnakeGame(int boardWidth, int boardHeight){
+        // Board
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         setPreferredSize(new Dimension(this.boardWidth, this.boardHeight));
@@ -27,6 +31,10 @@ public class SnakeGame extends JPanel {
         snakeHead = new Tile(5, 5);
         food = new Tile(0, 0);
         placeFood();
+
+        // Game Logic
+        gameLoop = new Timer(100, this);
+        gameLoop.start();
     }
 
     public void paintComponent(Graphics g){
@@ -59,5 +67,10 @@ public class SnakeGame extends JPanel {
     public void placeFood() {
         food.setX((int) ((Math.random() * boardWidth/tileSize) + 1));
         food.setY((int) ((Math.random() * boardHeight/tileSize) + 1));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        repaint();
     }
 }
