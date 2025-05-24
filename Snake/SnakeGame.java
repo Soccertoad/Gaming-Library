@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class SnakeGame extends JPanel implements ActionListener{
+public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     // Board
     int boardWidth;
     int boardHeight;
@@ -18,6 +18,8 @@ public class SnakeGame extends JPanel implements ActionListener{
 
     // Game Logic
     Timer gameLoop;
+    int velocityX;
+    int velocityY;
 
     // Constructor
     public SnakeGame(int boardWidth, int boardHeight){
@@ -33,8 +35,12 @@ public class SnakeGame extends JPanel implements ActionListener{
         placeFood();
 
         // Game Logic
+        addKeyListener(this);
+        setFocusable(true);
         gameLoop = new Timer(100, this);
         gameLoop.start();
+        velocityX = 0;
+        velocityY = 0;
     }
 
     public void paintComponent(Graphics g){
@@ -69,8 +75,45 @@ public class SnakeGame extends JPanel implements ActionListener{
         food.setY((int) ((Math.random() * boardHeight/tileSize) + 1));
     }
 
+    public void moveSnake(){
+        // Snake Head
+        snakeHead.setX(snakeHead.getX()/tileSize + velocityX);
+        snakeHead.setY(snakeHead.getY()/tileSize + velocityY);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
+        moveSnake();
         repaint();
     }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        // Up
+        if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && velocityY != 1) {
+            velocityY = -1;
+            velocityX = 0;
+        }
+        // Down
+        else if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && velocityY != -1) {
+            velocityY = 1;
+            velocityX = 0;
+        }
+        // Left
+        else if ((e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) && velocityX != 1) {
+            velocityY = 0;
+            velocityX = -1;
+        }
+        // Right
+        else if ((e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) && velocityX != -1) {
+            velocityY = 0;
+            velocityX = 1;
+        }
+    }
+
+    // Don't need these
+    @Override
+    public void keyTyped(KeyEvent e) {}
+    @Override
+    public void keyReleased(KeyEvent e) {}
 }
