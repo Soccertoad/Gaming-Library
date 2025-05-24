@@ -4,7 +4,6 @@ package Snake;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.*;
 
 public class SnakeGame extends JPanel {
@@ -16,6 +15,8 @@ public class SnakeGame extends JPanel {
             this.x = x * tileSize;
             this.y = y * tileSize;
         }
+        public void setX(int x) {this.x = x*tileSize;};
+        public void setY(int y) {this.y = y*tileSize;};
     }
 
     // Variables
@@ -23,7 +24,9 @@ public class SnakeGame extends JPanel {
     int boardHeight;
     int tileSize = Tile.tileSize;
 
-    Tile snakeHead = new Tile(5, 5);
+    // Tiles
+    Tile snakeHead;
+    Tile food;
 
     // Constructor
     public SnakeGame(int boardWidth, int boardHeight){
@@ -32,6 +35,10 @@ public class SnakeGame extends JPanel {
         setPreferredSize(new Dimension(this.boardWidth, this.boardHeight));
         setBackground(Color.getHSBColor(0.8f, 0.05f, 0.9f));
         
+        // Tiles
+        snakeHead = new Tile(5, 5);
+        food = new Tile(0, 0);
+        placeFood();
     }
 
     public void paintComponent(Graphics g){
@@ -52,8 +59,17 @@ public class SnakeGame extends JPanel {
             }
         }
 
+        // Food 
+        g.setColor(Color.getHSBColor(0f, 0.8f, 0.7f));
+        g.fillOval(food.x, food.y, tileSize, tileSize);
+
         // Snake
         g.setColor(Color.getHSBColor(0.3f, 0.5f, 0.3f));
         g.fillOval(snakeHead.x, snakeHead.y, tileSize, tileSize);
+    }
+
+    public void placeFood() {
+        food.setX((int) ((Math.random() * boardWidth/tileSize) + 1));
+        food.setY((int) ((Math.random() * boardHeight/tileSize) + 1));
     }
 }
