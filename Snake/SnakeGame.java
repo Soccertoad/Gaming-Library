@@ -36,7 +36,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         setBackground(Color.getHSBColor(0.8f, 0.05f, 0.9f));
         
         // Snake
-        snakeHead = new Tile(5, 5);
+        snakeHead = new Tile(boardWidth/tileSize/2, boardHeight/tileSize/2);
         snakeBody = new ArrayList<Tile>();
 
         // Food
@@ -97,8 +97,13 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             g.setFont(overFont);
             g.setColor(Color.getHSBColor(0f, 0.8f, 0.3f));
             FontMetrics metrics = g.getFontMetrics(overFont);
-            String overText = "GAME OVER\n Score: "+snakeBody.size();
-            g.drawString(overText, (boardWidth-metrics.stringWidth(overText))/2, boardHeight/2);
+            String gameOverText = "GAME OVER";
+            String endScoreText = "Score: "+snakeBody.size();
+            String restartText = "Press Space to restart";
+            g.drawString(gameOverText, (boardWidth-metrics.stringWidth(gameOverText))/2, boardHeight/2 - metrics.getHeight());
+            g.drawString(endScoreText, (boardWidth-metrics.stringWidth(endScoreText))/2, boardHeight/2);
+            g.drawString(restartText, (boardWidth-metrics.stringWidth(restartText))/2, boardHeight/2 + metrics.getHeight());
+
         }
 
         if (canIncreaseDifficuly == false){
@@ -162,6 +167,20 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
     }
 
+    public void restartGame(){
+        gameOver = false;
+        loopDelay = 110;
+        snakeBody.clear();
+        snakeHead.setX(boardWidth/tileSize/2);
+        snakeHead.setY(boardHeight/tileSize/2);
+        placeFood();
+        velocityX = 0;
+        velocityY = 0;
+
+        gameLoop = new Timer(loopDelay, this);
+        gameLoop.start();
+    }
+
     /* Implement Methods */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -209,6 +228,11 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         else if ((e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) && velocityX != -1) {
             velocityY = 0;
             velocityX = 1;
+        }
+
+        // To restart game
+        if (e.getKeyCode() == KeyEvent.VK_SPACE && gameOver){
+            restartGame();
         }
     }
 
