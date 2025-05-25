@@ -76,12 +76,60 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
         // Snake Head
         g.setColor(Color.getHSBColor(0.3f, 0.5f, 0.3f));
-        g.fillOval(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize);
-
+        // Draws rounded tail
+        if (snakeBody.size() != 0){
+            // up
+            if (isColliding(new Tile(snakeHead.getX()/tileSize, snakeHead.getY()/tileSize-1), snakeBody.get(0))) {
+                g.fillRect(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize/2);
+            }
+            // down
+            else if (isColliding(new Tile(snakeHead.getX()/tileSize, snakeHead.getY()/tileSize+1), snakeBody.get(0))) {
+                g.fillRect(snakeHead.getX(), snakeHead.getY()+tileSize/2+1, tileSize, tileSize/2);
+            } 
+            // left
+            else if (isColliding(new Tile(snakeHead.getX()/tileSize-1, snakeHead.getY()/tileSize), snakeBody.get(0))) {
+                g.fillRect(snakeHead.getX(), snakeHead.getY(), tileSize/2, tileSize);
+            }
+            // right
+            else if (isColliding(new Tile(snakeHead.getX()/tileSize+1, snakeHead.getY()/tileSize), snakeBody.get(0))) {
+                g.fillRect(snakeHead.getX()+tileSize/2+1, snakeHead.getY(), tileSize/2, tileSize);
+            }
+            g.fillOval(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize);                
+        }
+        else {
+            g.fillRoundRect(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize, 20, 20);
+        }
         // Snake Body
         for (int i = 0; i<snakeBody.size(); i++){
             Tile snakePart = snakeBody.get(i);
-            g.fillOval(snakePart.getX(), snakePart.getY(), tileSize, tileSize);
+            // Draws rounded tail
+            if (i == snakeBody.size()-1){
+                Tile comparePart = snakeHead;
+                if (i != 0){
+                    comparePart = snakeBody.get(i-1);
+                }
+                // up
+                if (isColliding(new Tile(snakePart.getX()/tileSize, snakePart.getY()/tileSize-1), comparePart)) {
+                    g.fillRect(snakePart.getX(), snakePart.getY(), tileSize, tileSize/2);
+                }
+                // down
+                else if (isColliding(new Tile(snakePart.getX()/tileSize, snakePart.getY()/tileSize+1), comparePart)) {
+                    g.fillRect(snakePart.getX(), snakePart.getY()+tileSize/2+1, tileSize, tileSize/2);
+                } 
+                // left
+                else if (isColliding(new Tile(snakePart.getX()/tileSize-1, snakePart.getY()/tileSize), comparePart)) {
+                    g.fillRect(snakePart.getX(), snakePart.getY(), tileSize/2, tileSize);
+                }
+                // right
+                else if (isColliding(new Tile(snakePart.getX()/tileSize+1, snakePart.getY()/tileSize), comparePart)) {
+                    g.fillRect(snakePart.getX()+tileSize/2+1, snakePart.getY(), tileSize/2, tileSize);
+                }
+                g.fillOval(snakePart.getX(), snakePart.getY(), tileSize, tileSize);                
+            }
+            // Draws cube body
+            else {            
+                g.fillRect(snakePart.getX(), snakePart.getY(), tileSize, tileSize);
+            }
         }
 
         // Score
