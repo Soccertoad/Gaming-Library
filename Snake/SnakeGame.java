@@ -8,24 +8,24 @@ import javax.swing.*;
 
 public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     // Board
-    int boardWidth;
-    int boardHeight;
-    int tileSize = Tile.tileSize;
+    private int boardWidth;
+    private int boardHeight;
+    private int tileSize = Tile.tileSize;
 
     // Snake
-    Tile snakeHead;
-    ArrayList<Tile> snakeBody;
+    private Tile snakeHead;
+    private ArrayList<Tile> snakeBody;
 
     // Food
-    Tile food;
+    private Tile food;
 
     // Game Logic
-    Timer gameLoop;
-    int loopDelay = 110;
-    int velocityX;
-    int velocityY;
-    boolean canIncreaseDifficuly = true;
-    boolean gameOver = false;
+    private Timer gameLoop;
+    private int loopDelay = 110;
+    private int velocityX;
+    private int velocityY;
+    private boolean canIncreaseDifficuly = true;
+    private boolean gameOver = false;
 
     // Constructor
     public SnakeGame(int boardWidth, int boardHeight){
@@ -57,7 +57,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         draw(g);
     }
 
-    public void draw(Graphics g){
+    private void draw(Graphics g){
         // Checkerboard grid
         int offset = 0;
         for (int i=0; i < boardWidth; i+= tileSize*2){
@@ -116,16 +116,16 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    public void placeFood() {
+    private void placeFood() {
         food.setX((int) (Math.random() * boardWidth/tileSize));
         food.setY((int) (Math.random() * boardHeight/tileSize));
     }
 
-    public boolean isColliding(Tile t1, Tile t2){
+    private boolean isColliding(Tile t1, Tile t2){
         return (t1.getX() == t2.getX()) && (t1.getY() == t2.getY());
     }
 
-    public void moveSnake(){
+    private void moveSnake(){
         // Eat food
         if (isColliding(snakeHead, food)){
             snakeBody.add(new Tile(food.getX()/tileSize, food.getY()/tileSize));
@@ -167,7 +167,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
     }
 
-    public void restartGame(){
+    private void restartGame(){
         gameOver = false;
         loopDelay = 110;
         snakeBody.clear();
