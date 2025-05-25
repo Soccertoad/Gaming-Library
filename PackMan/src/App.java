@@ -14,5 +14,8 @@ public class App {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        PacMan pacManGame = new PacMan();
+        frame.pack();
     }
 }
