@@ -81,11 +81,28 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             Tile snakePart = snakeBody.get(i);
             g.fillOval(snakePart.getX(), snakePart.getY(), tileSize, tileSize);
         }
+
+        // Score
+        Font scoreFont = new Font("Arial", Font.PLAIN, 15);
+        g.setFont(scoreFont);
+        g.setColor(Color.getHSBColor(0.8f, 0.05f, 0.1f));
+        String scoreText = "Score: "+snakeBody.size();
+        g.drawString(scoreText, tileSize, tileSize);
+
+        // Game Over
+        if (gameOver) {
+            Font overFont = new Font("Arial", Font.BOLD, 30);
+            g.setFont(overFont);
+            g.setColor(Color.getHSBColor(0f, 0.8f, 0.3f));
+            FontMetrics metrics = g.getFontMetrics(overFont);
+            String overText = "GAME OVER\n Score: "+snakeBody.size();
+            g.drawString(overText, (boardWidth-metrics.stringWidth(overText))/2, boardHeight/2);
+        }
     }
 
     public void placeFood() {
-        food.setX((int) ((Math.random() * boardWidth/tileSize) + 1));
-        food.setY((int) ((Math.random() * boardHeight/tileSize) + 1));
+        food.setX((int) (Math.random() * boardWidth/tileSize));
+        food.setY((int) (Math.random() * boardHeight/tileSize));
     }
 
     public boolean isColliding(Tile t1, Tile t2){
