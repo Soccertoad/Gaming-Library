@@ -21,8 +21,10 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
     // Game Logic
     Timer gameLoop;
+    int loopDelay = 110;
     int velocityX;
     int velocityY;
+    boolean canIncreaseDifficuly = true;
     boolean gameOver = false;
 
     // Constructor
@@ -44,7 +46,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         // Game Logic
         addKeyListener(this);
         setFocusable(true);
-        gameLoop = new Timer(100, this);
+        gameLoop = new Timer(loopDelay, this);
         gameLoop.start();
         velocityX = 0;
         velocityY = 0;
@@ -97,6 +99,15 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             FontMetrics metrics = g.getFontMetrics(overFont);
             String overText = "GAME OVER\n Score: "+snakeBody.size();
             g.drawString(overText, (boardWidth-metrics.stringWidth(overText))/2, boardHeight/2);
+        }
+
+        if (canIncreaseDifficuly == false){
+            Font difficultyFont = new Font("Arial", Font.BOLD, 20);
+            g.setFont(difficultyFont);
+            g.setColor(Color.getHSBColor(0.8f, 0.05f, 0.3f));
+            FontMetrics metrics = g.getFontMetrics(difficultyFont);
+            String overText = "Speed Increased";
+            g.drawString(overText, (boardWidth-metrics.stringWidth(overText))/2, tileSize);
         }
     }
 
@@ -151,13 +162,30 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
     }
 
-    
     /* Implement Methods */
     @Override
     public void actionPerformed(ActionEvent e) {
         moveSnake();
         repaint();
-        if (gameOver) { gameLoop.stop(); }
+        // If game is over then stop the loop
+        if (gameOver) {
+            gameLoop.stop(); 
+            return;
+        }
+        // Every 10 points make speed go faster by having less delay
+        if (snakeBody.size() % 10 == 0 && snakeBody.size() != 0 && canIncreaseDifficuly && loopDelay > 20){
+            // Subtract 10 from delay and restart loop
+            loopDelay -= 10;
+            gameLoop.stop();
+            gameLoop = new Timer(loopDelay, this);
+            gameLoop.start();
+            // Difficulty is not able to increase until size increases
+            canIncreaseDifficuly = false;
+        }
+        // When the next food has been eaten, difficulty is able to increase again
+        else if ((snakeBody.size()-1) %10== 0){
+            canIncreaseDifficuly = true;
+        }
     }
 
     @Override
