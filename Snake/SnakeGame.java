@@ -6,6 +6,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import Snake.SnakeConstants.ColorConstants;
+
 public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     // Board
     private int boardWidth;
@@ -33,7 +35,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         setPreferredSize(new Dimension(this.boardWidth, this.boardHeight));
-        setBackground(Color.getHSBColor(0.8f, 0.05f, 0.9f));
+        setBackground(ColorConstants.BACKGROUND_COLOR);
         
         // Snake
         snakeHead = new Tile(boardWidth/tileSize/2, boardHeight/tileSize/2);
@@ -63,7 +65,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         int offset = 0;
         for (int i=0; i < boardWidth; i+= tileSize*2){
             for (int j=0; j < boardHeight; j+= tileSize){
-                g.setColor(Color.getHSBColor(0.8f, 0.05f, 0.8f));
+                g.setColor(ColorConstants.BACKGROUND_CHECKER_COLOR);
                 g.fillRect(i+offset, j, tileSize, tileSize);
                 
                 if (offset == 25) {offset = 0;}
@@ -72,11 +74,11 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         }
 
         /* Food */
-        g.setColor(Color.getHSBColor(0f, 0.8f, 0.7f));
+        g.setColor(ColorConstants.FOOD_COLOR);
         g.fillOval(food.getX(), food.getY(), tileSize, tileSize);
 
         /*  Snake Head */
-        g.setColor(Color.getHSBColor(0.3f, 0.5f, 0.3f));
+        g.setColor(ColorConstants.SNAKE_BODY_COLOR);
         // Draws rounded head + eyes
         boolean eyesVertical = false;
         g.fillOval(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize);                
@@ -85,7 +87,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             g.fillRect(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize/2);
             eyesVertical = true;
             // Mouth
-            g.setColor(Color.getHSBColor(0f, 0.5f, 0.8f));
+            g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
             g.fillArc(snakeHead.getX()+tileSize/2-3, snakeHead.getY()+tileSize-7-3, 7, 7, 180, 180);
         }
         // up
@@ -93,7 +95,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             g.fillRect(snakeHead.getX(), snakeHead.getY()+tileSize/2+1, tileSize, tileSize/2);
             eyesVertical = true;
             // Mouth
-            g.setColor(Color.getHSBColor(0f, 0.5f, 0.8f));
+            g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
             g.fillArc(snakeHead.getX()+tileSize/2-3, snakeHead.getY()+3, 7, 7, 0, 180);
         } 
         // right
@@ -101,7 +103,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             g.fillRect(snakeHead.getX(), snakeHead.getY(), tileSize/2, tileSize);
             eyesVertical = false;
             // Mouth
-            g.setColor(Color.getHSBColor(0f, 0.5f, 0.8f));
+            g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
             g.fillArc(snakeHead.getX()+tileSize-7-3, snakeHead.getY()+tileSize/2-3, 7, 7, 270, 180);
         }
         // left
@@ -109,11 +111,11 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             g.fillRect(snakeHead.getX()+tileSize/2+1, snakeHead.getY(), tileSize/2, tileSize);
             eyesVertical = false;
             // Mouth
-            g.setColor(Color.getHSBColor(0f, 0.5f, 0.8f));
+            g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
             g.fillArc(snakeHead.getX()+3, snakeHead.getY()+tileSize/2-3, 7, 7, 90, 180);
         }
         // Draw eyes
-        g.setColor(Color.black);
+        g.setColor(ColorConstants.SNAKE_EYES_COLOR);
         if (eyesVertical){
             g.fillOval(snakeHead.getX()+1, snakeHead.getY()+10, 7, 7);
             g.fillOval(snakeHead.getX()+tileSize-10, snakeHead.getY()+10, 7, 7);
@@ -124,7 +126,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         }
 
         /*  Snake Body */
-        g.setColor(Color.getHSBColor(0.3f, 0.5f, 0.3f));
+        g.setColor(ColorConstants.SNAKE_BODY_COLOR);
         for (int i = 0; i<snakeBody.size(); i++){
             Tile snakePart = snakeBody.get(i);
             // Draws rounded tail
@@ -162,7 +164,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         // Score
         Font scoreFont = new Font("Arial", Font.PLAIN, 15);
         g.setFont(scoreFont);
-        g.setColor(Color.getHSBColor(0.8f, 0.05f, 0.1f));
+        g.setColor(ColorConstants.TEXT_SCORE_COLOR);
         String scoreText = "Score: "+(snakeBody.size()-1);
         g.drawString(scoreText, tileSize, tileSize);
 
@@ -170,7 +172,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         if (gameOver) {
             Font overFont = new Font("Arial", Font.BOLD, 30);
             g.setFont(overFont);
-            g.setColor(Color.getHSBColor(0f, 0.8f, 0.3f));
+            g.setColor(ColorConstants.TEXT_GAME_OVER_COLOR);
             FontMetrics metrics = g.getFontMetrics(overFont);
             String gameOverText = "GAME OVER";
             String endScoreText = "Score: "+(snakeBody.size()-1);
@@ -185,7 +187,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         if (canIncreaseDifficuly == false){
             Font difficultyFont = new Font("Arial", Font.BOLD, 20);
             g.setFont(difficultyFont);
-            g.setColor(Color.getHSBColor(0.8f, 0.05f, 0.3f));
+            g.setColor(ColorConstants.TEXT_SPEED_COLOR);
             FontMetrics metrics = g.getFontMetrics(difficultyFont);
             String overText = "Speed Increased";
             g.drawString(overText, (boardWidth-metrics.stringWidth(overText))/2, tileSize);
@@ -273,7 +275,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             return;
         }
         // Every 10 points make speed go faster by having less delay
-        if (snakeBody.size() % 10 == 0 && snakeBody.size() != 0 && canIncreaseDifficuly && loopDelay > 20){
+        if ((snakeBody.size()-1) % 10 == 0 && (snakeBody.size()-1) != 0 && canIncreaseDifficuly && loopDelay > 20){
             // Subtract 10 from delay and restart loop
             loopDelay -= 10;
             gameLoop.stop();
@@ -281,10 +283,12 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             gameLoop.start();
             // Difficulty is not able to increase until size increases
             canIncreaseDifficuly = false;
+            System.out.println(loopDelay);
         }
         // When the next food has been eaten, difficulty is able to increase again
-        else if ((snakeBody.size()-1) %10== 0){
+        else if ((snakeBody.size()-2) %10 == 0){
             canIncreaseDifficuly = true;
+            System.out.println("Heh");
         }
     }
 
