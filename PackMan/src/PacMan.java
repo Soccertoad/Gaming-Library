@@ -132,6 +132,13 @@ public class PacMan extends JPanel{
                     Block ghost = new Block(orangeGhostImage, x, y, tileSize, tileSize);
                     ghosts.add(ghost);
                 }
+                else if(tileMapChar == 'P'){
+                    pacman = new Block(pacmanRightImage, x, y, tileSize, tileSize);
+                }
+                else if(tileMapChar == ' '){
+                    Block food = new Block(null, x+14, y+14, 4, 4);
+                    foods.add(food);
+                }
             }
         }
 
