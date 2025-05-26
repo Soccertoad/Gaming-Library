@@ -76,30 +76,59 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
         // Snake Head
         g.setColor(Color.getHSBColor(0.3f, 0.5f, 0.3f));
-        // Draws rounded tail
+        // Draws rounded head + eyes
         if (snakeBody.size() != 0){
-            // up
+            boolean eyesVertical = false;
+            g.fillOval(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize);                
+            // down
             if (isColliding(new Tile(snakeHead.getX()/tileSize, snakeHead.getY()/tileSize-1), snakeBody.get(0))) {
                 g.fillRect(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize/2);
+                eyesVertical = true;
+                // Mouth
+                g.setColor(Color.getHSBColor(0f, 0.5f, 0.8f));
+                g.fillArc(snakeHead.getX()+tileSize/2-3, snakeHead.getY()+tileSize-7-3, 7, 7, 180, 180);
             }
-            // down
+            // up
             else if (isColliding(new Tile(snakeHead.getX()/tileSize, snakeHead.getY()/tileSize+1), snakeBody.get(0))) {
                 g.fillRect(snakeHead.getX(), snakeHead.getY()+tileSize/2+1, tileSize, tileSize/2);
+                eyesVertical = true;
+                // Mouth
+                g.setColor(Color.getHSBColor(0f, 0.5f, 0.8f));
+                g.fillArc(snakeHead.getX()+tileSize/2-3, snakeHead.getY()+3, 7, 7, 0, 180);
             } 
-            // left
+            // right
             else if (isColliding(new Tile(snakeHead.getX()/tileSize-1, snakeHead.getY()/tileSize), snakeBody.get(0))) {
                 g.fillRect(snakeHead.getX(), snakeHead.getY(), tileSize/2, tileSize);
+                eyesVertical = false;
+                // Mouth
+                g.setColor(Color.getHSBColor(0f, 0.5f, 0.8f));
+                g.fillArc(snakeHead.getX()+tileSize-7-3, snakeHead.getY()+tileSize/2-3, 7, 7, 270, 180);
             }
-            // right
+            // left
             else if (isColliding(new Tile(snakeHead.getX()/tileSize+1, snakeHead.getY()/tileSize), snakeBody.get(0))) {
                 g.fillRect(snakeHead.getX()+tileSize/2+1, snakeHead.getY(), tileSize/2, tileSize);
+                eyesVertical = false;
+                // Mouth
+                g.setColor(Color.getHSBColor(0f, 0.5f, 0.8f));
+                g.fillArc(snakeHead.getX()+3, snakeHead.getY()+tileSize/2-3, 7, 7, 90, 180);
             }
-            g.fillOval(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize);                
+            // Draw eyes
+            g.setColor(Color.black);
+            if (eyesVertical){
+                g.fillOval(snakeHead.getX()+1, snakeHead.getY()+10, 7, 7);
+                g.fillOval(snakeHead.getX()+tileSize-10, snakeHead.getY()+10, 7, 7);
+            }
+            else {
+                g.fillOval(snakeHead.getX()+10, snakeHead.getY()+1, 7, 7);
+                g.fillOval(snakeHead.getX()+10, snakeHead.getY()+tileSize-10, 7, 7);
+            }
         }
         else {
+            g.setColor(Color.getHSBColor(0.3f, 0.5f, 0.3f));
             g.fillRoundRect(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize, 20, 20);
         }
         // Snake Body
+        g.setColor(Color.getHSBColor(0.3f, 0.5f, 0.3f));
         for (int i = 0; i<snakeBody.size(); i++){
             Tile snakePart = snakeBody.get(i);
             // Draws rounded tail
