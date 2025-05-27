@@ -13,7 +13,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     // Board
     private int boardWidth;
     private int boardHeight;
-    private int tileSize = Tile.tileSize;
+    private int oneTile = Tile.tileSize;
 
     // Snake
     private Tile snakeHead;
@@ -39,9 +39,9 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         setBackground(ColorConstants.BACKGROUND_COLOR);
         
         // Snake
-        snakeHead = new Tile(boardWidth/tileSize/2, boardHeight/tileSize/2);
+        snakeHead = new Tile(boardWidth/oneTile/2, boardHeight/oneTile/2);
         snakeBody = new ArrayList<Tile>();
-        snakeBody.add(new Tile(snakeHead.getX()/tileSize-tileSize, snakeHead.getY()/tileSize));
+        snakeBody.add(new Tile(snakeHead.getXTile()-oneTile, snakeHead.getYTile()));
 
         // Food
         food = new Tile(0, 0);
@@ -64,10 +64,10 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     private void draw(Graphics g){
         /*  Checkerboard grid */
         int offset = 0;
-        for (int i=0; i < boardWidth; i+= tileSize*2){
-            for (int j=0; j < boardHeight; j+= tileSize){
+        for (int i=0; i < boardWidth; i+= oneTile*2){
+            for (int j=0; j < boardHeight; j+= oneTile){
                 g.setColor(ColorConstants.BACKGROUND_CHECKER_COLOR);
-                g.fillRect(i+offset, j, tileSize, tileSize);
+                g.fillRect(i+offset, j, oneTile, oneTile);
                 
                 if (offset == 25) {offset = 0;}
                 else {offset = 25;}
@@ -86,83 +86,83 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
                     comparePart = snakeBody.get(i-1);
                 }
                 // up
-                if (isColliding(new Tile(snakePart.getX()/tileSize, snakePart.getY()/tileSize-1), comparePart)) {
-                    g.fillRect(snakePart.getX(), snakePart.getY(), tileSize, tileSize/2);
+                if (isColliding(new Tile(snakePart.getXTile(), snakePart.getYTile()-1), comparePart)) {
+                    g.fillRect(snakePart.getXPixel(), snakePart.getYPixel(), oneTile, oneTile/2);
                 }
                 // down
-                else if (isColliding(new Tile(snakePart.getX()/tileSize, snakePart.getY()/tileSize+1), comparePart)) {
-                    g.fillRect(snakePart.getX(), snakePart.getY()+tileSize/2+1, tileSize, tileSize/2);
+                else if (isColliding(new Tile(snakePart.getXTile(), snakePart.getYTile()+1), comparePart)) {
+                    g.fillRect(snakePart.getXPixel(), snakePart.getYPixel()+oneTile/2+1, oneTile, oneTile/2);
                 } 
                 // left
-                else if (isColliding(new Tile(snakePart.getX()/tileSize-1, snakePart.getY()/tileSize), comparePart)) {
-                    g.fillRect(snakePart.getX(), snakePart.getY(), tileSize/2, tileSize);
+                else if (isColliding(new Tile(snakePart.getXTile()-1, snakePart.getYTile()), comparePart)) {
+                    g.fillRect(snakePart.getXPixel(), snakePart.getYPixel(), oneTile/2, oneTile);
                 }
                 // right
-                else if (isColliding(new Tile(snakePart.getX()/tileSize+1, snakePart.getY()/tileSize), comparePart)) {
-                    g.fillRect(snakePart.getX()+tileSize/2+1, snakePart.getY(), tileSize/2, tileSize);
+                else if (isColliding(new Tile(snakePart.getXTile()+1, snakePart.getYTile()), comparePart)) {
+                    g.fillRect(snakePart.getXPixel()+oneTile/2+1, snakePart.getYPixel(), oneTile/2, oneTile);
                 }
-                g.fillOval(snakePart.getX(), snakePart.getY(), tileSize, tileSize);                
+                g.fillOval(snakePart.getXPixel(), snakePart.getYPixel(), oneTile, oneTile);                
             }
             // Draws cube body
             else {            
-                g.fillRect(snakePart.getX(), snakePart.getY(), tileSize, tileSize);
+                g.fillRect(snakePart.getXPixel(), snakePart.getYPixel(), oneTile, oneTile);
             }
         }
         
         /* Food */
         g.setColor(ColorConstants.FOOD_BASE_COLOR);
-        g.fillOval(food.getX()+2, food.getY()+5, tileSize-5, tileSize-6);
+        g.fillOval(food.getXPixel()+2, food.getYPixel()+5, oneTile-5, oneTile-6);
         g.setColor(ColorConstants.FOOD_STEM_COLOR);
-        g.fillRoundRect(food.getX()+tileSize/2-1, food.getY()+1, 4, 6, 50, 50);
+        g.fillRoundRect(food.getXPixel()+oneTile/2-1, food.getYPixel()+1, 4, 6, 50, 50);
         g.setColor(ColorConstants.FOOD_LEAF_COLOR);
-        g.fillArc(food.getX()+tileSize/2, food.getY()+1, 8, 7, 240, 180);
+        g.fillArc(food.getXPixel()+oneTile/2, food.getYPixel()+1, 8, 7, 240, 180);
 
         /*  Snake Head */
         g.setColor(ColorConstants.SNAKE_BODY_COLOR);
         // Draws rounded head + eyes
         boolean eyesVertical = false;
-        g.fillOval(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize);                
+        g.fillOval(snakeHead.getXPixel(), snakeHead.getYPixel(), oneTile, oneTile);                
         // down
-        if (isColliding(new Tile(snakeHead.getX()/tileSize, snakeHead.getY()/tileSize-1), snakeBody.get(0))) {
-            g.fillRect(snakeHead.getX(), snakeHead.getY(), tileSize, tileSize/2);
+        if (isColliding(new Tile(snakeHead.getXTile(), snakeHead.getYTile()-1), snakeBody.get(0))) {
+            g.fillRect(snakeHead.getXPixel(), snakeHead.getYPixel(), oneTile, oneTile/2);
             eyesVertical = true;
             // Mouth
             g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
-            g.fillArc(snakeHead.getX()+tileSize/2-3, snakeHead.getY()+tileSize-7-3, 7, 7, 180, 180);
+            g.fillArc(snakeHead.getXPixel()+oneTile/2-3, snakeHead.getYPixel()+oneTile-7-3, 7, 7, 180, 180);
         }
         // up
-        else if (isColliding(new Tile(snakeHead.getX()/tileSize, snakeHead.getY()/tileSize+1), snakeBody.get(0))) {
-            g.fillRect(snakeHead.getX(), snakeHead.getY()+tileSize/2+1, tileSize, tileSize/2);
+        else if (isColliding(new Tile(snakeHead.getXTile(), snakeHead.getYTile()+1), snakeBody.get(0))) {
+            g.fillRect(snakeHead.getXPixel(), snakeHead.getYPixel()+oneTile/2+1, oneTile, oneTile/2);
             eyesVertical = true;
             // Mouth
             g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
-            g.fillArc(snakeHead.getX()+tileSize/2-3, snakeHead.getY()+3, 7, 7, 0, 180);
+            g.fillArc(snakeHead.getXPixel()+oneTile/2-3, snakeHead.getYPixel()+3, 7, 7, 0, 180);
         } 
         // right
-        else if (isColliding(new Tile(snakeHead.getX()/tileSize-1, snakeHead.getY()/tileSize), snakeBody.get(0))) {
-            g.fillRect(snakeHead.getX(), snakeHead.getY(), tileSize/2, tileSize);
+        else if (isColliding(new Tile(snakeHead.getXTile()-1, snakeHead.getYTile()), snakeBody.get(0))) {
+            g.fillRect(snakeHead.getXPixel(), snakeHead.getYPixel(), oneTile/2, oneTile);
             eyesVertical = false;
             // Mouth
             g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
-            g.fillArc(snakeHead.getX()+tileSize-7-3, snakeHead.getY()+tileSize/2-3, 7, 7, 270, 180);
+            g.fillArc(snakeHead.getXPixel()+oneTile-7-3, snakeHead.getYPixel()+oneTile/2-3, 7, 7, 270, 180);
         }
         // left
-        else if (isColliding(new Tile(snakeHead.getX()/tileSize+1, snakeHead.getY()/tileSize), snakeBody.get(0))) {
-            g.fillRect(snakeHead.getX()+tileSize/2+1, snakeHead.getY(), tileSize/2, tileSize);
+        else if (isColliding(new Tile(snakeHead.getXTile()+1, snakeHead.getYTile()), snakeBody.get(0))) {
+            g.fillRect(snakeHead.getXPixel()+oneTile/2+1, snakeHead.getYPixel(), oneTile/2, oneTile);
             eyesVertical = false;
             // Mouth
             g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
-            g.fillArc(snakeHead.getX()+3, snakeHead.getY()+tileSize/2-3, 7, 7, 90, 180);
+            g.fillArc(snakeHead.getXPixel()+3, snakeHead.getYPixel()+oneTile/2-3, 7, 7, 90, 180);
         }
         // Draw eyes
         g.setColor(ColorConstants.SNAKE_EYES_COLOR);
         if (eyesVertical){
-            g.fillOval(snakeHead.getX()+1, snakeHead.getY()+10, 7, 7);
-            g.fillOval(snakeHead.getX()+tileSize-10, snakeHead.getY()+10, 7, 7);
+            g.fillOval(snakeHead.getXPixel()+1, snakeHead.getYPixel()+10, 7, 7);
+            g.fillOval(snakeHead.getXPixel()+oneTile-10, snakeHead.getYPixel()+10, 7, 7);
         }
         else {
-            g.fillOval(snakeHead.getX()+10, snakeHead.getY()+1, 7, 7);
-            g.fillOval(snakeHead.getX()+10, snakeHead.getY()+tileSize-10, 7, 7);
+            g.fillOval(snakeHead.getXPixel()+10, snakeHead.getYPixel()+1, 7, 7);
+            g.fillOval(snakeHead.getXPixel()+10, snakeHead.getYPixel()+oneTile-10, 7, 7);
         }
 
         /*  Text  */
@@ -171,14 +171,14 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         g.setFont(scoreFont);
         g.setColor(ColorConstants.TEXT_SCORE_COLOR);
         String scoreText = "Score: "+(snakeBody.size()-1);
-        g.drawString(scoreText, tileSize, tileSize - 5);
+        g.drawString(scoreText, oneTile, oneTile - 5);
 
         // High Score
         if (snakeBody.size()-1 > ScoreConstants.high_score){
             ScoreConstants.high_score = snakeBody.size()-1;
         }
         String highScoreText = "High Score: "+(ScoreConstants.high_score);
-        g.drawString(highScoreText, tileSize, tileSize*2 - 5);
+        g.drawString(highScoreText, oneTile, oneTile*2 - 5);
 
         // Game Over
         if (gameOver) {
@@ -202,23 +202,23 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             g.setColor(ColorConstants.TEXT_SPEED_COLOR);
             FontMetrics metrics = g.getFontMetrics(difficultyFont);
             String overText = "Speed Increased";
-            g.drawString(overText, (boardWidth-metrics.stringWidth(overText))/2, tileSize);
+            g.drawString(overText, (boardWidth-metrics.stringWidth(overText))/2, oneTile);
         }
     }
 
     private void placeFood() {
-        food.setX((int) (Math.random() * boardWidth/tileSize));
-        food.setY((int) (Math.random() * boardHeight/tileSize));
+        food.setX((int) (Math.random() * boardWidth/oneTile));
+        food.setY((int) (Math.random() * boardHeight/oneTile));
     }
 
     private boolean isColliding(Tile t1, Tile t2){
-        return (t1.getX() == t2.getX()) && (t1.getY() == t2.getY());
+        return (t1.getXPixel() == t2.getXPixel()) && (t1.getYPixel() == t2.getYPixel());
     }
 
     private void moveSnake(){
         // Eat food
         if (isColliding(snakeHead, food)){
-            snakeBody.add(new Tile(food.getX()/tileSize, food.getY()/tileSize));
+            snakeBody.add(new Tile(food.getXTile(), food.getYTile()));
             placeFood();
         }
 
@@ -227,20 +227,20 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             if (velocityX != 0 || velocityY != 0){
                 Tile snakePart = snakeBody.get(i);
                 if (i == 0){
-                    snakePart.setX(snakeHead.getX()/tileSize);
-                    snakePart.setY(snakeHead.getY()/tileSize);
+                    snakePart.setX(snakeHead.getXTile());
+                    snakePart.setY(snakeHead.getYTile());
                 }
                 else {
                     Tile prevSnakePart = snakeBody.get(i-1);
-                    snakePart.setX(prevSnakePart.getX()/tileSize);
-                    snakePart.setY(prevSnakePart.getY()/tileSize);
+                    snakePart.setX(prevSnakePart.getXTile());
+                    snakePart.setY(prevSnakePart.getYTile());
                 }
             }
         }
 
         // Snake Head
-        snakeHead.setX(snakeHead.getX()/tileSize + velocityX);
-        snakeHead.setY(snakeHead.getY()/tileSize + velocityY);
+        snakeHead.setX(snakeHead.getXTile() + velocityX);
+        snakeHead.setY(snakeHead.getYTile() + velocityY);
 
         /* Game Over Conditions X_X */
         // Snake head touches body part
@@ -252,8 +252,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         }
 
         // Snake head touches walls
-        if (snakeHead.getX() < 0 || snakeHead.getX() > boardWidth ||
-        snakeHead.getY() < 0 || snakeHead.getY() > boardHeight) {
+        if (snakeHead.getXPixel() < 0 || snakeHead.getXPixel() > boardWidth ||
+        snakeHead.getYPixel() < 0 || snakeHead.getYPixel() > boardHeight) {
             gameOver = true;
         }
 
@@ -263,10 +263,10 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         // Resets conditions to default values
         gameOver = false;
         loopDelay = 110;
-        snakeHead.setX(boardWidth/tileSize/2);
-        snakeHead.setY(boardHeight/tileSize/2);
+        snakeHead.setX(boardWidth/oneTile/2);
+        snakeHead.setY(boardHeight/oneTile/2);
         snakeBody.clear();
-        snakeBody.add(new Tile(snakeHead.getX()/tileSize-tileSize, snakeHead.getY()/tileSize));
+        snakeBody.add(new Tile(snakeHead.getXTile()-oneTile, snakeHead.getYTile()));
         placeFood();
         velocityX = 0;
         velocityY = 0;
