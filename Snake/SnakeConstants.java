@@ -14,7 +14,10 @@ public class SnakeConstants {
         public final static Color SNAKE_EYES_COLOR = Color.getHSBColor(0.6f, 0.6f, 0.2f);
 
         // Food
-        public final static Color FOOD_COLOR = Color.getHSBColor(0f, 0.8f, 0.7f);
+        public final static Color FOOD_BASE_COLOR = Color.getHSBColor(0f, 0.8f, 0.7f);
+        public final static Color FOOD_STEM_COLOR = Color.getHSBColor(0.1f, 0.6f, 0.3f);
+        public final static Color FOOD_LEAF_COLOR = Color.getHSBColor(0.3f, 0.6f, 0.5f);
+
 
         // Text
         public final static Color TEXT_GAME_OVER_COLOR = Color.getHSBColor(0f, 0.8f, 0.3f);
