@@ -1,9 +1,13 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashSet;
 
 import javax.swing.*;
 
-public class PacMan extends JPanel{
+public class PacMan extends JPanel implements ActionListener, KeyListener{
 
     class Block{
         int x;
@@ -52,6 +56,9 @@ public class PacMan extends JPanel{
 
     private int foodOffset = tileSize/2 - 2;
 
+    //Game time
+    Timer gameLoop;
+
     //List of item and object positions
     //  X = wall, O = skip, P = pac man, ' ' = food
     //  Ghosts: b = blue, o = orange, p = pink, r = red
@@ -97,6 +104,8 @@ public class PacMan extends JPanel{
         pacmanRightImage = new ImageIcon(getClass().getResource("./Images/pacmanRight.png")).getImage();
 
         loadMap();
+        gameLoop = new Timer(50, this); //20 fps
+        gameLoop.start();
 
     }
 
@@ -168,5 +177,28 @@ public class PacMan extends JPanel{
         }
 
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        repaint();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
     }
 }
