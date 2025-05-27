@@ -25,4 +25,8 @@ public class SnakeConstants {
         public final static Color TEXT_SPEED_COLOR = Color.getHSBColor(0.8f, 0.05f, 0.3f);
  
     }
+
+    public class ScoreConstants {
+        public static int high_score = 0;
+    }
 }

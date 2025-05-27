@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import Snake.SnakeConstants.ColorConstants;
+import Snake.SnakeConstants.ScoreConstants;
 
 public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     // Board
@@ -170,7 +171,14 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         g.setFont(scoreFont);
         g.setColor(ColorConstants.TEXT_SCORE_COLOR);
         String scoreText = "Score: "+(snakeBody.size()-1);
-        g.drawString(scoreText, tileSize, tileSize);
+        g.drawString(scoreText, tileSize, tileSize - 5);
+
+        // High Score
+        if (snakeBody.size()-1 > ScoreConstants.high_score){
+            ScoreConstants.high_score = snakeBody.size()-1;
+        }
+        String highScoreText = "High Score: "+(ScoreConstants.high_score);
+        g.drawString(highScoreText, tileSize, tileSize*2 - 5);
 
         // Game Over
         if (gameOver) {
