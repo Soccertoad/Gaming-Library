@@ -90,6 +90,8 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
     PacMan(){
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setBackground(Color.BLACK);
+        addKeyListener(this);
+        setFocusable(true);
 
         // Loads Images
         wallImage = new ImageIcon(getClass().getResource("./Images/wall.png")).getImage();
@@ -186,19 +188,16 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
+        System.out.println("KeyEvent: " + e.getKeyCode());
     }
 }
