@@ -73,6 +73,41 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             }
         }
 
+        /*  Snake Body */
+        g.setColor(ColorConstants.SNAKE_BODY_COLOR);
+        for (int i = 0; i<snakeBody.size(); i++){
+            Tile snakePart = snakeBody.get(i);
+            // Draws rounded tail
+            if (i == snakeBody.size()-1){
+                // If there is more than one body part, it compares to the prev body part. Else the head 
+                Tile comparePart = snakeHead;
+                if (i != 0){
+                    comparePart = snakeBody.get(i-1);
+                }
+                // up
+                if (isColliding(new Tile(snakePart.getX()/tileSize, snakePart.getY()/tileSize-1), comparePart)) {
+                    g.fillRect(snakePart.getX(), snakePart.getY(), tileSize, tileSize/2);
+                }
+                // down
+                else if (isColliding(new Tile(snakePart.getX()/tileSize, snakePart.getY()/tileSize+1), comparePart)) {
+                    g.fillRect(snakePart.getX(), snakePart.getY()+tileSize/2+1, tileSize, tileSize/2);
+                } 
+                // left
+                else if (isColliding(new Tile(snakePart.getX()/tileSize-1, snakePart.getY()/tileSize), comparePart)) {
+                    g.fillRect(snakePart.getX(), snakePart.getY(), tileSize/2, tileSize);
+                }
+                // right
+                else if (isColliding(new Tile(snakePart.getX()/tileSize+1, snakePart.getY()/tileSize), comparePart)) {
+                    g.fillRect(snakePart.getX()+tileSize/2+1, snakePart.getY(), tileSize/2, tileSize);
+                }
+                g.fillOval(snakePart.getX(), snakePart.getY(), tileSize, tileSize);                
+            }
+            // Draws cube body
+            else {            
+                g.fillRect(snakePart.getX(), snakePart.getY(), tileSize, tileSize);
+            }
+        }
+        
         /* Food */
         g.setColor(ColorConstants.FOOD_COLOR);
         g.fillOval(food.getX(), food.getY(), tileSize, tileSize);
@@ -123,41 +158,6 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         else {
             g.fillOval(snakeHead.getX()+10, snakeHead.getY()+1, 7, 7);
             g.fillOval(snakeHead.getX()+10, snakeHead.getY()+tileSize-10, 7, 7);
-        }
-
-        /*  Snake Body */
-        g.setColor(ColorConstants.SNAKE_BODY_COLOR);
-        for (int i = 0; i<snakeBody.size(); i++){
-            Tile snakePart = snakeBody.get(i);
-            // Draws rounded tail
-            if (i == snakeBody.size()-1){
-                // If there is more than one body part, it compares to the prev body part. Else the head 
-                Tile comparePart = snakeHead;
-                if (i != 0){
-                    comparePart = snakeBody.get(i-1);
-                }
-                // up
-                if (isColliding(new Tile(snakePart.getX()/tileSize, snakePart.getY()/tileSize-1), comparePart)) {
-                    g.fillRect(snakePart.getX(), snakePart.getY(), tileSize, tileSize/2);
-                }
-                // down
-                else if (isColliding(new Tile(snakePart.getX()/tileSize, snakePart.getY()/tileSize+1), comparePart)) {
-                    g.fillRect(snakePart.getX(), snakePart.getY()+tileSize/2+1, tileSize, tileSize/2);
-                } 
-                // left
-                else if (isColliding(new Tile(snakePart.getX()/tileSize-1, snakePart.getY()/tileSize), comparePart)) {
-                    g.fillRect(snakePart.getX(), snakePart.getY(), tileSize/2, tileSize);
-                }
-                // right
-                else if (isColliding(new Tile(snakePart.getX()/tileSize+1, snakePart.getY()/tileSize), comparePart)) {
-                    g.fillRect(snakePart.getX()+tileSize/2+1, snakePart.getY(), tileSize/2, tileSize);
-                }
-                g.fillOval(snakePart.getX(), snakePart.getY(), tileSize, tileSize);                
-            }
-            // Draws cube body
-            else {            
-                g.fillRect(snakePart.getX(), snakePart.getY(), tileSize, tileSize);
-            }
         }
 
         /*  Text  */
@@ -283,12 +283,10 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             gameLoop.start();
             // Difficulty is not able to increase until size increases
             canIncreaseDifficuly = false;
-            System.out.println(loopDelay);
         }
         // When the next food has been eaten, difficulty is able to increase again
         else if ((snakeBody.size()-2) %10 == 0){
             canIncreaseDifficuly = true;
-            System.out.println("Heh");
         }
     }
 
