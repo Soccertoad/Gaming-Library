@@ -1,8 +1,10 @@
-package Snake;
+package App.Snake;
+
+import App.Constants;
 
 public class Tile {
     // Variables
-    public static final int tileSize = SnakeConstants.TILE_SIZE;
+    public static final int tileSize = Constants.SnakeConstants.TILE_SIZE;
     private int x, y; 
 
     // Constructor

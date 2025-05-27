@@ -1,9 +1,12 @@
-package Snake;
+package App;
+
 import javax.swing.*;
+
+import App.Snake.SnakeGame;
 
 public class App {
     public static void main(String[] args){
-        // Board
+        // Snake Board
         int boardWidth = 600;
         int boardHeight = boardWidth;
         JFrame frame = new JFrame("Snake");

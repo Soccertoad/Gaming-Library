@@ -1,10 +1,12 @@
-package Snake;
+package App.Snake;
 
 // Imports
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
+
+import  App.Constants.SnakeConstants;;
 
 public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     // Board
