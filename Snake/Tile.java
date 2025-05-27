@@ -2,7 +2,7 @@ package Snake;
 
 public class Tile {
     // Variables
-    public static final int tileSize = 25;
+    public static final int tileSize = SnakeConstants.TILE_SIZE;
     private int x, y; 
 
     // Constructor

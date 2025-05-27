@@ -6,9 +6,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import Snake.SnakeConstants.ColorConstants;
-import Snake.SnakeConstants.ScoreConstants;
-
 public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     // Board
     private int boardWidth;
@@ -24,7 +21,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
 
     // Game Logic
     private Timer gameLoop;
-    private int loopDelay = 110;
+    private int loopDelay = SnakeConstants.DEFAULT_LOOP_DELAY;
     private int velocityX;
     private int velocityY;
     private boolean canIncreaseDifficuly = true;
@@ -36,7 +33,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         setPreferredSize(new Dimension(this.boardWidth, this.boardHeight));
-        setBackground(ColorConstants.BACKGROUND_COLOR);
+        setBackground(SnakeConstants.BACKGROUND_COLOR);
         
         // Snake
         snakeHead = new Tile(boardWidth/oneTile/2, boardHeight/oneTile/2);
@@ -66,7 +63,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         int offset = 0;
         for (int i=0; i < boardWidth; i+= oneTile*2){
             for (int j=0; j < boardHeight; j+= oneTile){
-                g.setColor(ColorConstants.BACKGROUND_CHECKER_COLOR);
+                g.setColor(SnakeConstants.BACKGROUND_CHECKER_COLOR);
                 g.fillRect(i+offset, j, oneTile, oneTile);
                 
                 if (offset == 25) {offset = 0;}
@@ -75,7 +72,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         }
 
         /*  Snake Body */
-        g.setColor(ColorConstants.SNAKE_BODY_COLOR);
+        g.setColor(SnakeConstants.SNAKE_BODY_COLOR);
         for (int i = 0; i<snakeBody.size(); i++){
             Tile snakePart = snakeBody.get(i);
             // Draws rounded tail
@@ -110,15 +107,15 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         }
         
         /* Food */
-        g.setColor(ColorConstants.FOOD_BASE_COLOR);
+        g.setColor(SnakeConstants.FOOD_BASE_COLOR);
         g.fillOval(food.getXPixel()+2, food.getYPixel()+5, oneTile-5, oneTile-6);
-        g.setColor(ColorConstants.FOOD_STEM_COLOR);
+        g.setColor(SnakeConstants.FOOD_STEM_COLOR);
         g.fillRoundRect(food.getXPixel()+oneTile/2-1, food.getYPixel()+1, 4, 6, 50, 50);
-        g.setColor(ColorConstants.FOOD_LEAF_COLOR);
+        g.setColor(SnakeConstants.FOOD_LEAF_COLOR);
         g.fillArc(food.getXPixel()+oneTile/2, food.getYPixel()+1, 8, 7, 240, 180);
 
         /*  Snake Head */
-        g.setColor(ColorConstants.SNAKE_BODY_COLOR);
+        g.setColor(SnakeConstants.SNAKE_BODY_COLOR);
         // Draws rounded head + eyes
         boolean eyesVertical = false;
         g.fillOval(snakeHead.getXPixel(), snakeHead.getYPixel(), oneTile, oneTile);                
@@ -127,7 +124,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             g.fillRect(snakeHead.getXPixel(), snakeHead.getYPixel(), oneTile, oneTile/2);
             eyesVertical = true;
             // Mouth
-            g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
+            g.setColor(SnakeConstants.SNAKE_MOUTH_COLOR);
             g.fillArc(snakeHead.getXPixel()+oneTile/2-3, snakeHead.getYPixel()+oneTile-7-3, 7, 7, 180, 180);
         }
         // up
@@ -135,7 +132,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             g.fillRect(snakeHead.getXPixel(), snakeHead.getYPixel()+oneTile/2+1, oneTile, oneTile/2);
             eyesVertical = true;
             // Mouth
-            g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
+            g.setColor(SnakeConstants.SNAKE_MOUTH_COLOR);
             g.fillArc(snakeHead.getXPixel()+oneTile/2-3, snakeHead.getYPixel()+3, 7, 7, 0, 180);
         } 
         // right
@@ -143,7 +140,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             g.fillRect(snakeHead.getXPixel(), snakeHead.getYPixel(), oneTile/2, oneTile);
             eyesVertical = false;
             // Mouth
-            g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
+            g.setColor(SnakeConstants.SNAKE_MOUTH_COLOR);
             g.fillArc(snakeHead.getXPixel()+oneTile-7-3, snakeHead.getYPixel()+oneTile/2-3, 7, 7, 270, 180);
         }
         // left
@@ -151,11 +148,11 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
             g.fillRect(snakeHead.getXPixel()+oneTile/2+1, snakeHead.getYPixel(), oneTile/2, oneTile);
             eyesVertical = false;
             // Mouth
-            g.setColor(ColorConstants.SNAKE_MOUTH_COLOR);
+            g.setColor(SnakeConstants.SNAKE_MOUTH_COLOR);
             g.fillArc(snakeHead.getXPixel()+3, snakeHead.getYPixel()+oneTile/2-3, 7, 7, 90, 180);
         }
         // Draw eyes
-        g.setColor(ColorConstants.SNAKE_EYES_COLOR);
+        g.setColor(SnakeConstants.SNAKE_EYES_COLOR);
         if (eyesVertical){
             g.fillOval(snakeHead.getXPixel()+1, snakeHead.getYPixel()+10, 7, 7);
             g.fillOval(snakeHead.getXPixel()+oneTile-10, snakeHead.getYPixel()+10, 7, 7);
@@ -169,22 +166,22 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         // Score
         Font scoreFont = new Font("Arial", Font.PLAIN, 15);
         g.setFont(scoreFont);
-        g.setColor(ColorConstants.TEXT_SCORE_COLOR);
+        g.setColor(SnakeConstants.TEXT_SCORE_COLOR);
         String scoreText = "Score: "+(snakeBody.size()-1);
         g.drawString(scoreText, oneTile, oneTile - 5);
 
         // High Score
-        if (snakeBody.size()-1 > ScoreConstants.high_score){
-            ScoreConstants.high_score = snakeBody.size()-1;
+        if (snakeBody.size()-1 > SnakeConstants.high_score){
+            SnakeConstants.high_score = snakeBody.size()-1;
         }
-        String highScoreText = "High Score: "+(ScoreConstants.high_score);
+        String highScoreText = "High Score: "+(SnakeConstants.high_score);
         g.drawString(highScoreText, oneTile, oneTile*2 - 5);
 
         // Game Over
         if (gameOver) {
             Font overFont = new Font("Arial", Font.BOLD, 30);
             g.setFont(overFont);
-            g.setColor(ColorConstants.TEXT_GAME_OVER_COLOR);
+            g.setColor(SnakeConstants.TEXT_GAME_OVER_COLOR);
             FontMetrics metrics = g.getFontMetrics(overFont);
             String gameOverText = "GAME OVER";
             String endScoreText = "Score: "+(snakeBody.size()-1);
@@ -199,7 +196,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
         if (canIncreaseDifficuly == false){
             Font difficultyFont = new Font("Arial", Font.BOLD, 20);
             g.setFont(difficultyFont);
-            g.setColor(ColorConstants.TEXT_SPEED_COLOR);
+            g.setColor(SnakeConstants.TEXT_SPEED_COLOR);
             FontMetrics metrics = g.getFontMetrics(difficultyFont);
             String overText = "Speed Increased";
             g.drawString(overText, (boardWidth-metrics.stringWidth(overText))/2, oneTile);
@@ -262,7 +259,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
     private void restartGame(){
         // Resets conditions to default values
         gameOver = false;
-        loopDelay = 110;
+        loopDelay = SnakeConstants.DEFAULT_LOOP_DELAY;
         snakeHead.setX(boardWidth/oneTile/2);
         snakeHead.setY(boardHeight/oneTile/2);
         snakeBody.clear();
