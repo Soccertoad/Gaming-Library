@@ -6,7 +6,9 @@ import java.awt.Color;
 public class Constants {
 
     public class SelectionConstants {
-        /* Stuff */
+        /* Background */
+        public final static Color BACKGROUND_COLOR = Color.getHSBColor(0f, 0.05f, 0.1f);
+
     }
 
     public class SnakeConstants{

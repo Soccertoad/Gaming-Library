@@ -68,8 +68,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener {
                 g.setColor(SnakeConstants.BACKGROUND_CHECKER_COLOR);
                 g.fillRect(i+offset, j, oneTile, oneTile);
                 
-                if (offset == 25) {offset = 0;}
-                else {offset = 25;}
+                if (offset == oneTile) {offset = 0;}
+                else {offset = oneTile;}
             }
         }
 
