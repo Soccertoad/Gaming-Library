@@ -50,6 +50,8 @@ public class PacMan extends JPanel{
     HashSet<Block> ghosts;
     Block pacman;
 
+    private int foodOffset = tileSize/2 - 2;
+
     //List of item and object positions
     //  X = wall, O = skip, P = pac man, ' ' = food
     //  Ghosts: b = blue, o = orange, p = pink, r = red
@@ -94,6 +96,7 @@ public class PacMan extends JPanel{
         pacmanLeftImage = new ImageIcon(getClass().getResource("./Images/pacmanLeft.png")).getImage();
         pacmanRightImage = new ImageIcon(getClass().getResource("./Images/pacmanRight.png")).getImage();
 
+        loadMap();
 
     }
 
@@ -136,11 +139,34 @@ public class PacMan extends JPanel{
                     pacman = new Block(pacmanRightImage, x, y, tileSize, tileSize);
                 }
                 else if(tileMapChar == ' '){
-                    Block food = new Block(null, x+14, y+14, 4, 4);
+                    Block food = new Block(null, x+foodOffset, y+foodOffset, 4, 4);
                     foods.add(food);
                 }
             }
         }
+
+    }
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        draw(g);
+    }
+    public void draw(Graphics g){
+        g.drawImage(pacman.image, pacman.x, pacman.y, pacman.width, pacman.height, null);
+        
+        for(Block ghost : ghosts){
+            g.drawImage(ghost.image, ghost.x, ghost.y, ghost.width, ghost.height, null);
+        }
+
+        for(Block wall : walls){
+            g.drawImage(wall.image, wall.x, wall.y, wall.width, wall.height, null);
+        }
+
+        g.setColor(Color.WHITE);
+        for(Block food : foods){
+            g.drawRect(food.x, food.y, food.width, food.height);
+        }
+
 
     }
 }
