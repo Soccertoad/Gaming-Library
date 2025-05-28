@@ -8,7 +8,6 @@ import App.Snake.SnakeGame;
 public class App {
     public static void main(String[] args){
         CreateSelectionPage();
-        CreateSnake();
     }
 
     public static void CreateSelectionPage(){

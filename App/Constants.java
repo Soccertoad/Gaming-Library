@@ -9,6 +9,9 @@ public class Constants {
         /* Background */
         public final static Color BACKGROUND_COLOR = Color.getHSBColor(0f, 0.05f, 0.1f);
 
+        /* Game Boxes */
+        public final static Color GAME_BOX_COLOR = Color.getHSBColor(0f, 0.05f, 0.6f);
+
     }
 
     public class SnakeConstants{
