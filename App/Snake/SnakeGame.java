@@ -9,6 +9,7 @@ import javax.swing.*;
 import  App.Constants.SnakeConstants;;
 
 public class SnakeGame extends JPanel implements ActionListener, KeyListener {
+    public static final String name = "Snake";
     // Board
     private int boardWidth;
     private int boardHeight;
