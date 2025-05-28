@@ -1,19 +1,10 @@
 package App.SelectionPage;
 
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 
 import App.Constants.SelectionConstants;
 import App.Snake.SnakeGame;
