@@ -11,7 +11,7 @@ public class Constants {
 
         /* Game Boxes */
         public final static Color GAME_BOX_COLOR = Color.getHSBColor(0f, 0.05f, 0.6f);
-
+        public final static Color GAME_BORDER_COLOR = Color.getHSBColor(0f, 0.05f, 0.4f);
     }
 
     public class SnakeConstants{

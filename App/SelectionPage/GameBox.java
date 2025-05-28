@@ -1,22 +1,40 @@
 package App.SelectionPage;
 
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 
+import App.Constants.SelectionConstants;
 import App.Snake.SnakeGame;
 
 public class GameBox extends JButton {
-    // Variables
+    // Coordinates
     int x;
     int y;
 
     // Constructor
-    public GameBox(int x, int y, String gameName){
+    public GameBox(int x, int y, String gameName, ImageIcon gameIcon){
+        // Coordinates 
         this.x = x;
         this.y = y;
-        setText(gameName);
 
+        // Set icon and color
+        setIcon(gameIcon);
+        setBackground(SelectionConstants.GAME_BOX_COLOR);
+        setBorder(BorderFactory.createLineBorder(SelectionConstants.GAME_BORDER_COLOR, 5));
+
+        // On click, launch the specified game
         addMouseListener(new MouseListener(){
             @Override public void mouseClicked(java.awt.event.MouseEvent e) {
                 switch (gameName) {
