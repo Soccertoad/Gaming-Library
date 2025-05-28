@@ -96,8 +96,10 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
     HashSet<Block> foods;
     HashSet<Block> ghosts;
     Block pacman;
+    Block teleport1;
+    Block teleport2;
 
-    private int foodOffset = tileSize/2 - 2;
+    int blockOffset = tileSize/2 - 2;
 
     //Game time
     Timer gameLoop;
@@ -108,6 +110,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
     int lives = 3;
     int level = 1;
     boolean gameOver = false;
+    String gameDetails;
 
     //List of item and object positions
     //  X = wall, O = skip, P = pac man, ' ' = food
@@ -122,7 +125,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
         "XXXX XXXX XXXX XXXX",
         "OOOX X       X XOOO",
         "XXXX X XXrXX X XXXX",
-        "T       bpo       P",
+        "T       bpo       t",
         "XXXX X XXXXX X XXXX",
         "OOOX X       X XOOO",
         "XXXX X XXXXX X XXXX",
@@ -205,47 +208,34 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
                     pacman = new Block(pacmanRightImage, x, y, tileSize, tileSize);
                 }
                 else if(tileMapChar == ' '){
-                    Block food = new Block(null, x+foodOffset, y+foodOffset, 4, 4);
+                    Block food = new Block(null, x+blockOffset, y+blockOffset, 4, 4);
                     foods.add(food);
+                } 
+                else if(tileMapChar == 'T'){
+                    teleport1 = new Block(null, x, y, 1, 1);
+                }
+                else if(tileMapChar == 't'){
+                    teleport2 = new Block(null, x+tileSize, y, 1, 1);
                 }
             }
         }
 
     }
 
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        draw(g);
-    }
-
-    public void draw(Graphics g){
-        g.drawImage(pacman.image, pacman.x, pacman.y, pacman.width, pacman.height, null);
-        
-        for(Block ghost : ghosts){
-            g.drawImage(ghost.image, ghost.x, ghost.y, ghost.width, ghost.height, null);
-        }
-
-        for(Block wall : walls){
-            g.drawImage(wall.image, wall.x, wall.y, wall.width, wall.height, null);
-        }
-
-        g.setColor(Color.WHITE);
-        for(Block food : foods){
-            g.drawRect(food.x, food.y, food.width, food.height);
-        }
-
-        g.setFont(new Font("Arial", Font.PLAIN, 18));
-        if(gameOver){
-            g.drawString("Game Over: " + String.valueOf(score), tileSize/2, tileSize/2);
-        }
-        else{
-            g.drawString("x" + String.valueOf(lives) + " Score: " + String.valueOf(score), tileSize/2, tileSize/2);
-        }
-    }
-
     public void move(){
         pacman.x += pacman.velocityX;
         pacman.y += pacman.velocityY;
+        
+        if(collision(pacman, teleport1)){
+            pacman.updateDirection('L');
+            pacman.x = teleport2.x - tileSize;
+            pacman.y = teleport2.y;
+        } 
+        else if(collision(pacman, teleport2)){
+            pacman.updateDirection('R');
+            pacman.x = teleport1.x + tileSize/4;
+            pacman.y = teleport1.y;
+        }
         
         for (Block wall : walls){
             if(collision(pacman, wall)){
@@ -307,7 +297,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
             ghost.updateDirection(newDirection);
         }
     }
-    
+
     public boolean collision(Block a, Block b){
         return  a.x < b.x + b.width &&
                 a.x + a.width > b.x &&
@@ -315,6 +305,40 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
                 a.y + a.height > b.y;
     }
 
+    /*  Draw and Placement Methods */
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        draw(g);
+    }
+
+    public void draw(Graphics g){
+        g.drawImage(pacman.image, pacman.x, pacman.y, pacman.width, pacman.height, null);
+        
+        for(Block ghost : ghosts){
+            g.drawImage(ghost.image, ghost.x, ghost.y, ghost.width, ghost.height, null);
+        }
+
+        for(Block wall : walls){
+            g.drawImage(wall.image, wall.x, wall.y, wall.width, wall.height, null);
+        }
+
+        g.setColor(Color.WHITE);
+        for(Block food : foods){
+            g.drawRect(food.x, food.y, food.width, food.height);
+        }
+
+        g.setFont(new Font("Arial", Font.PLAIN, 18));
+        if(gameOver){
+            gameDetails = "Game Over: " + String.valueOf(score);
+            g.drawString(gameDetails, tileSize/2, tileSize/2);
+        }
+        else{
+            gameDetails = "x" + String.valueOf(lives) + " Level: " + String.valueOf(level) + " Score: " + String.valueOf(score) + " High Score: " + String.valueOf(highScore);
+            g.drawString(gameDetails, tileSize/2, tileSize/2);
+        }
+    }
+
+    /*  Implemented Methods */
     @Override
     public void actionPerformed(ActionEvent e) {
         move();
@@ -332,7 +356,11 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
     
-        if(gameOver){
+        if(e.getKeyCode() == KeyEvent.VK_R){
+            gameOver = true;
+        }
+
+        if(gameOver && e.getKeyCode() == KeyEvent.VK_R){
             loadMap();
             resetPositions();
             lives = 3;
