@@ -1,6 +1,8 @@
 public class App {
     Run|Debug
-    public static void main (String[] args
+    public static void main (String[] args) throws exception {
+        Calculater calculater = new Calculater();
+    }
 }
 
 
