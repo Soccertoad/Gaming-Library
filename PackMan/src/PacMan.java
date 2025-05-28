@@ -104,7 +104,9 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
     char[] directions = {'U', 'D', 'L', 'R'};
     Random random = new Random();
     int score = 0;
+    int highScore = score;
     int lives = 3;
+    int level = 1;
     boolean gameOver = false;
 
     //List of item and object positions
@@ -120,7 +122,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
         "XXXX XXXX XXXX XXXX",
         "OOOX X       X XOOO",
         "XXXX X XXrXX X XXXX",
-        "O       bpo       O",
+        "T       bpo       P",
         "XXXX X XXXXX X XXXX",
         "OOOX X       X XOOO",
         "XXXX X XXXXX X XXXX",
@@ -286,8 +288,12 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
         }
         foods.remove(foodEaten);
         if(foods.isEmpty()){
+            level++;
             loadMap();
             resetPositions();
+        }
+        if(score>=highScore){
+            highScore = score;
         }
     }
     
@@ -301,6 +307,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
             ghost.updateDirection(newDirection);
         }
     }
+    
     public boolean collision(Block a, Block b){
         return  a.x < b.x + b.width &&
                 a.x + a.width > b.x &&
@@ -324,20 +331,17 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
+    
         if(gameOver){
             loadMap();
             resetPositions();
             lives = 3;
             score = 0;
+            level = 1;
             gameOver = false;
             gameLoop.start();
         }
-        //System.out.println("KeyEvent: " + e.getKeyCode());
+
         if(e.getKeyCode() == KeyEvent.VK_UP){
             pacman.updateDirection('U');
         }
@@ -363,5 +367,46 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
         else if(pacman.direction == 'R'){
             pacman.image = pacmanRightImage;
         }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        /* 
+        if(gameOver){
+            loadMap();
+            resetPositions();
+            lives = 3;
+            score = 0;
+            level = 1;
+            gameOver = false;
+            gameLoop.start();
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_UP){
+            pacman.updateDirection('U');
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+            pacman.updateDirection('D');
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+            pacman.updateDirection('R');
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+            pacman.updateDirection('L');
+        }
+
+        if (pacman.direction == 'U'){
+            pacman.image = pacmanUpImage;
+        }
+        else if (pacman.direction == 'D'){
+            pacman.image = pacmanDownImage;
+        }
+        else if(pacman.direction == 'L'){
+            pacman.image = pacmanLeftImage;
+        }
+        else if(pacman.direction == 'R'){
+            pacman.image = pacmanRightImage;
+        }
+        */
     }
 }
