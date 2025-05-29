@@ -34,7 +34,7 @@ public class GameBox extends JButton {
                     case SnakeGame.name:
                         createSnake();
                         break;
-                    case "PacMan":
+                    case PacMan.name:
                         createPacman();
                         break;
                     case "Calculator":
@@ -65,7 +65,7 @@ public class GameBox extends JButton {
     private void createSnake(){
         int boardWidth = 600;
         int boardHeight = 600;
-        JFrame frame = new JFrame("Snake");
+        JFrame frame = new JFrame(SnakeGame.name);
         frame.setVisible(true);
         frame.setSize(boardWidth, boardHeight);
         frame.setLocationRelativeTo(null);
@@ -84,7 +84,7 @@ public class GameBox extends JButton {
         int boardWidth = columCount * tileSize;
         int boardHeight = rowCount * tileSize;
 
-        JFrame frame = new JFrame("Pac Man");
+        JFrame frame = new JFrame(PacMan.name);
         frame.setVisible(true);
         frame.setSize(boardWidth, boardHeight);
         frame.setLocationRelativeTo(null);

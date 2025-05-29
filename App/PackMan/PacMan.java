@@ -75,6 +75,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
             this.y = this.startY;
         }
     }
+    public static final String name = "Pac Man";
 
     private int rowCount = 21;
     private int columCount = 19;
