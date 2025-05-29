@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import App.Constants.SelectionConstants;
+import App.PackMan.PacMan;
 import App.Snake.SnakeGame;
 
 public class SelectionPage extends JPanel {
@@ -56,7 +57,7 @@ public class SelectionPage extends JPanel {
 
         // Game Boxes
         GameBox snake = new GameBox(blankSpaceW, blankSpaceH, SnakeGame.name, snakeIcon);
-        GameBox pacman = new GameBox(blankSpaceW*2+gameWidth, blankSpaceH, "PacMan", pacmanIcon);
+        GameBox pacman = new GameBox(blankSpaceW*2+gameWidth, blankSpaceH, PacMan.name, pacmanIcon);
         GameBox calculator = new GameBox(blankSpaceW*3+gameWidth*2, blankSpaceH, "Calculator", calculatorIcon);
         GameBox game4 = new GameBox(blankSpaceW, blankSpaceH*2 + gameHeight, "Game4", game4Icon);
         GameBox game5 = new GameBox(blankSpaceW*2+gameWidth, blankSpaceH*2 + gameHeight, "Game5", game5Icon);
