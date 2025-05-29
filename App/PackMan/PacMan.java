@@ -1,3 +1,4 @@
+package App.PackMan;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +8,8 @@ import java.util.HashSet;
 import java.util.Random;
 
 import javax.swing.*;
+
+import App.Constants.PacmanConstants;
 
 public class PacMan extends JPanel implements ActionListener, KeyListener{
 
@@ -106,7 +109,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
     char[] directions = {'U', 'D', 'L', 'R'};
     Random random = new Random();
     int score = 0;
-    int highScore = score;
+    int highScore = PacmanConstants.high_score;
     int lives = 3;
     int level = 1;
     boolean gameOver = false;
@@ -141,23 +144,23 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
     };
 
     // Constructor 
-    PacMan(){
+    public PacMan(){
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setBackground(Color.BLACK);
         addKeyListener(this);
         setFocusable(true);
 
         // Loads Images
-        wallImage = new ImageIcon(getClass().getResource("./Images/wall.png")).getImage();
-        blueGhostImage = new ImageIcon(getClass().getResource("./Images/blueGhost.png")).getImage();
-        orangeGhostImage = new ImageIcon(getClass().getResource("./Images/orangeGhost.png")).getImage();
-        pinkGhostImage = new ImageIcon(getClass().getResource("./Images/pinkGhost.png")).getImage();
-        redGhostImage = new ImageIcon(getClass().getResource("./Images/redGhost.png")).getImage();
+        wallImage = new ImageIcon(getClass().getResource("Images/wall.png")).getImage();
+        blueGhostImage = new ImageIcon(getClass().getResource("Images/blueGhost.png")).getImage();
+        orangeGhostImage = new ImageIcon(getClass().getResource("Images/orangeGhost.png")).getImage();
+        pinkGhostImage = new ImageIcon(getClass().getResource("Images/pinkGhost.png")).getImage();
+        redGhostImage = new ImageIcon(getClass().getResource("Images/redGhost.png")).getImage();
 
-        pacmanUpImage = new ImageIcon(getClass().getResource("./Images/pacmanUp.png")).getImage();
-        pacmanDownImage = new ImageIcon(getClass().getResource("./Images/pacmanDown.png")).getImage();
-        pacmanLeftImage = new ImageIcon(getClass().getResource("./Images/pacmanLeft.png")).getImage();
-        pacmanRightImage = new ImageIcon(getClass().getResource("./Images/pacmanRight.png")).getImage();
+        pacmanUpImage = new ImageIcon(getClass().getResource("Images/pacmanUp.png")).getImage();
+        pacmanDownImage = new ImageIcon(getClass().getResource("Images/pacmanDown.png")).getImage();
+        pacmanLeftImage = new ImageIcon(getClass().getResource("Images/pacmanLeft.png")).getImage();
+        pacmanRightImage = new ImageIcon(getClass().getResource("Images/pacmanRight.png")).getImage();
 
         loadMap();
         for (Block ghost : ghosts){
@@ -286,6 +289,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
         }
         if(score>=highScore){
             highScore = score;
+            PacmanConstants.high_score = highScore;
         }
     }
     

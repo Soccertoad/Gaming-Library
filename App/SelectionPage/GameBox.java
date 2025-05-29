@@ -6,7 +6,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import App.Constants.PacmanConstants;
 import App.Constants.SelectionConstants;
+import App.PackMan.PacMan;
 import App.Snake.SnakeGame;
 
 public class GameBox extends JButton {
@@ -76,7 +78,23 @@ public class GameBox extends JButton {
     }
 
     private void createPacman(){
-        System.out.println("Pacman!");
+        int rowCount = PacmanConstants.ROW_COUNT;
+        int columCount = PacmanConstants.COLUMN_COUNT;
+        int tileSize = PacmanConstants.TILE_SIZE;
+        int boardWidth = columCount * tileSize;
+        int boardHeight = rowCount * tileSize;
+
+        JFrame frame = new JFrame("Pac Man");
+        frame.setVisible(true);
+        frame.setSize(boardWidth, boardHeight);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+
+        PacMan pacmanGame = new PacMan();
+        frame.add(pacmanGame);
+        frame.pack();
+        pacmanGame.requestFocus();
+        frame.setVisible(true);
     }
 
     private void createCalculator(){

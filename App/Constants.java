@@ -36,7 +36,7 @@ public class Constants {
         public final static Color TEXT_SCORE_COLOR = Color.getHSBColor(0.8f, 0.05f, 0.1f);
         public final static Color TEXT_SPEED_COLOR = Color.getHSBColor(0.8f, 0.05f, 0.3f);
 
-        /* Score Constants */
+        /* Score */
         public static int high_score = 0;
 
         /* Tile Constants */
@@ -44,5 +44,15 @@ public class Constants {
 
         /* Game Constants */
         public static final int DEFAULT_LOOP_DELAY = 100;
+    }
+
+    public class PacmanConstants{
+        /* Tiles */
+        public static final int ROW_COUNT = 21;
+        public static final int COLUMN_COUNT = 19;
+        public static final int TILE_SIZE = 32; 
+
+        /* High Score */
+        public static int high_score = 0;
     }
 }
