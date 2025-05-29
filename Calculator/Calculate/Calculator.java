@@ -1,19 +1,19 @@
 import java.awt.*;
 import java.awt.event.*;
-import java java.util.Arrays.*;
+import java.util.Arrays;
 import javax.swing.*;
-import javax.swing.border.LineBorder,;
+import javax.swing.border.LineBorder;
 
-public class Calculater {
+public class Calculator {
     int boardWidth = 360;
-    int boardHeight = 540
+    int boardHeight = 540;
 
     Color customTeal = new Color(0, 255, 255);
     Color customBlue = new Color(0, 150, 225);
     Color customBlack = new Color(0, 0, 0);
     Color customOrange = new Color(255, 149, 0);
     
-    JFrame frame = new JFrame("Calculater");
+    JFrame frame = new JFrame("Calculator");
     JLabel displayLabel = new JLabel();
     JPanel displayPanel = new JPanel();
     JPanel buttonsPanel = new JPanel();
@@ -24,11 +24,11 @@ public class Calculater {
         "4","5","6","-",
         "1","2","3","+",
         "0",".","√","="
-    }
+    };
     String[] rightSymbols = {"÷", "×", "-", "+", "="};
     String[] topSymbols = {"AC", "+/-", "%"};
 
-    Calculater() {
+    public Calculator() {
         frame.setVisible(true);
         frame.setSize(boardWidth, boardHeight);
         frame.setLocationRelativeTo(null);
@@ -53,11 +53,12 @@ public class Calculater {
 
         for (int i = 0; i < buttonValues.length; i++) {
             JButton button = new JButton();
-            String buttonValues = buttonValues[i];
+            String[] buttonValues = new String[i];
             button.setFont(new Font("Arial", Font.PLAIN, 30));
-            button.setText(button);
+            button.setText("button");
             button.setFocusable(false);
             button.setBorder(new LineBorder(customBlue));
+
             if (Arrays.asList(topSymbols).contains(buttonValues)) {
                 button.setBackground(customOrange);
                 button.setForeground(customBlack);
@@ -72,7 +73,8 @@ public class Calculater {
             }
             buttonsPanel.add(button);
 
-            button.addActionListener(new addActionListener) {
+            button.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     JButton button = (JButton) e.getSource();
                     String buttonValues = button.getText();
@@ -106,6 +108,7 @@ public class Calculater {
                         }
                     }
                 }
+                
             });
         }
     }
