@@ -111,6 +111,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
     int level = 1;
     boolean gameOver = false;
     String gameDetails;
+    int gameDelay = 50;
 
     //List of item and object positions
     //  X = wall, O = skip, P = pac man, ' ' = food
@@ -164,7 +165,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
             ghost.updateDirection(newDirection);
 
         }
-        gameLoop = new Timer(50, this); //20 fps
+        gameLoop = new Timer(gameDelay, this); //20 fps
         gameLoop.start();
 
     }
@@ -279,6 +280,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
         foods.remove(foodEaten);
         if(foods.isEmpty()){
             level++;
+            gameDelay = gameDelay - level;
             loadMap();
             resetPositions();
         }
