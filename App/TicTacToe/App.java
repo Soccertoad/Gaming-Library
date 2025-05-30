@@ -1,5 +1,7 @@
 package App.TicTacToe;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 
 public class App {
@@ -15,6 +17,7 @@ public class App {
         frame.setSize(boardWidth, boardHeight);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
+        frame.setLayout(new BorderLayout());
 
         TicTacToe ticTacToe = new TicTacToe(boardWidth, boardHeight, frame);
         frame.add(ticTacToe);
