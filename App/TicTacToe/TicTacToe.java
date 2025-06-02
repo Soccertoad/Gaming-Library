@@ -23,13 +23,14 @@ public class TicTacToe extends JPanel {
     private int boardHeight;
 
     // Grid
-    JButton[][] grid;
-    int tileCount = TicTacToeConstants.TILE_COUNT;
+    private JButton[][] grid;
+    private int tileCount = TicTacToeConstants.TILE_COUNT;
 
     // Logic
-    String x = "X";
-    String o = "O";
-    String player = x;
+    private String x = "X";
+    private String o = "O";
+    private String player = x;
+    private final String TIE = "tie";
 
     public TicTacToe(int boardWidth, int boardHeight, JFrame frame){
         // Frame
@@ -50,7 +51,7 @@ public class TicTacToe extends JPanel {
         for (int r=0; r<tileCount; r++){
             for (int c=0; c<tileCount; c++){
                 // Create piece
-                JButton tile = new JButton();
+                Tile tile = new Tile(r, c);
                 grid[r][c] = tile;
                 this.add(tile);
 
@@ -66,7 +67,7 @@ public class TicTacToe extends JPanel {
                 tile.addMouseListener(new MouseListener() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        select(tile);    
+                        if (tile.isEnabled()){ select(tile); }
                     }
                     // Don't need
                     @Override public void mousePressed(MouseEvent e) {}
@@ -79,20 +80,21 @@ public class TicTacToe extends JPanel {
         }
     }
 
-    public void select(JButton tile){
+    public void select(Tile tile){
         // If tile is empty
         if ((tile.getText() != x) && (tile.getText() != o)){
             tile.setText(player);
 
             // Check if there is a winner
-            String winner = checkIfWin();
-            if (winner == player || winner == "tie"){
+            String winner = checkIfWin(tile);
+
+            if (winner == player || winner == TIE){
                 for (int r=0; r<tileCount; r++){
                     for (int c=0; c<tileCount; c++){
                         grid[r][c].setEnabled(false);
                     }
                 }
-                System.out.println("hi");
+                System.out.println("Winner: "+winner);
                 return;
             }
 
@@ -102,22 +104,59 @@ public class TicTacToe extends JPanel {
         }
     }
 
-    public String checkIfWin(){
-        String winner = "";
-        String board = "";
+    public String checkIfWin(Tile tile){
+        boolean win;
 
-        // Fill string
+        // Vertical
+        win = true;
+        for (int c = 0; c<tileCount; c++){
+            if (grid[tile.getRow()][c].getText() != tile.getText()){
+                win = false;
+                break;
+            }
+        }
+        if (win) { return player; };
+
+        // Horizontal
+        win = true;
+        for (int r = 0; r<tileCount; r++){
+            if (grid[r][tile.getCol()].getText() != tile.getText()){
+                win = false;
+                break;
+            }
+        }
+        if (win) { return player; };
+
+        // Left Diagonal
+        win = true;
+        for (int r = 0, c = 0; r<tileCount && c<tileCount; r++, c++){
+            if (grid[r][c].getText() != tile.getText()){
+                win = false;
+                break;
+            }
+        }
+        if (win) { return player; };
+
+        // Right Diagonal
+        win = true;
+        for (int r = tileCount-1, c = 0; r >= 0 && c < tileCount; r--, c++){
+            if (grid[r][c].getText() != tile.getText()){
+                win = false;
+                break;
+            }
+        }
+        if (win) { return player; };
+
+        // If board is filled and no winner
+        String board = "";
         for (int r=0; r<tileCount; r++){
             for (int c=0; c<tileCount; c++){
                 board += grid[r][c].getText();
             }
         }
+        if (board.length() == tileCount*tileCount){ return TIE; }
 
-        // If board is filled
-        if (board.length() == tileCount*tileCount){
-            return "tie";
-        }
-
-        return winner;
+        // Game is not over
+        return "";
     }
 }
