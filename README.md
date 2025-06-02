@@ -13,3 +13,14 @@ This is tic tac toe. Base code from [Tic Tac Toe in Java by Kenny Yip Coding](ht
 
 ## Calculator
 This is a calculator. Base code from [Calculator in Java by Kenny Yip Coding](https://www.youtube.com/watch?v=jQo6n-i6wpo&list=PLnKe36F30Y4Y1XQOqNsL9Fgg_p6nYhcng&index=11), and changed somehow.
+
+##How to Play
+[Gaming Library](https://replit.com/@soccertoad22/Game-Library-2?v=1)
+1. Follow the link and create/sign into a replit account (Sign in with google works)
+2. Press remix this app
+3. Close the Assistent and code (Main.java) file
+4. Enter full screen and press run
+5. Wait for the VNC to open then close the console tab (If VNC doesn't open search VNC in the
+search bar)
+6. Navigate to the verdical 3 dots and select maximize
+7. Select the game you want to play: PacMan or Snake
