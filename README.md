@@ -14,7 +14,7 @@ This is tic tac toe. Base code from [Tic Tac Toe in Java by Kenny Yip Coding](ht
 ## Calculator
 This is a calculator. Base code from [Calculator in Java by Kenny Yip Coding](https://www.youtube.com/watch?v=jQo6n-i6wpo&list=PLnKe36F30Y4Y1XQOqNsL9Fgg_p6nYhcng&index=11), and changed somehow.
 
-##How to Play
+## How to Play
 [Gaming Library](https://replit.com/@soccertoad22/Game-Library-2?v=1)
 1. Follow the link and create/sign into a replit account (Sign in with google works)
 2. Press remix this app
